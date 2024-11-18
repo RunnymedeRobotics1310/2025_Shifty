@@ -88,10 +88,74 @@ public class DefaultDriveCommand extends LoggingCommand {
         SmartDashboard.putBoolean("Boost", false);
     }
 
-    private void setMotorSpeedsArcade(double speed, double turn, boolean boost) {
+    private void setMotorSpeedsArcade(double speed, double rawTurn, boolean boost) {
 
-        // FIXME: what should we put here?
-        driveSubsystem.setMotorSpeeds(0, 0);
+        SmartDashboard.putNumber("Speed", speed);
+        SmartDashboard.putNumber("Turn", rawTurn);
+
+        double  turn      = rawTurn / 2;
+        // boolean boost = driverController.isBoost();
+        boolean slow      = false;            // driverController.isSlowDown();
+
+        double  leftSpeed = 0, rightSpeed = 0;
+
+        if (slow) {
+            speed = speed / 5;
+            turn  = turn / 2.5; // Turn was already divided by 2 above
+        }
+
+        else if (!boost) {
+            speed = speed / 2;
+        }
+
+        else {
+            speed = Math.signum(speed);
+        }
+
+        if (speed < 0) {
+            turn = -turn;
+        }
+
+        if (speed == 0) {
+            leftSpeed  = turn;
+            rightSpeed = -turn;
+        }
+        else if (boost) {
+
+            // Turning left
+            if (rawTurn < 0) {
+
+                // If boosted and at full speed, and the
+                // turn is limited to 0.5, then the max turn
+                // that can be achieved is 1.0 vs 0.5.
+                leftSpeed  = speed + turn;
+                rightSpeed = speed;
+            }
+            // Turning right
+            else if (rawTurn > 0) {
+                leftSpeed  = speed;
+                rightSpeed = speed - turn;
+            }
+            else {
+                leftSpeed  = speed;
+                rightSpeed = speed;
+            }
+        }
+        else {
+            if (rawTurn < 0) {
+                leftSpeed  = speed;
+                rightSpeed = speed - turn;
+            }
+            else if (rawTurn > 0) {
+                leftSpeed  = speed + turn;
+                rightSpeed = speed;
+            }
+            else {
+                rightSpeed = speed;
+                leftSpeed  = speed;
+            }
+        }
+        driveSubsystem.setMotorSpeeds(leftSpeed, rightSpeed);
     }
 
 
