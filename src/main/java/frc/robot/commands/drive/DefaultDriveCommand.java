@@ -92,6 +92,7 @@ public class DefaultDriveCommand extends LoggingCommand {
 
         // FIXME: what should we put here?
         driveSubsystem.setMotorSpeeds(speed + turn, speed - turn);
+        // hi
 
     }
 
