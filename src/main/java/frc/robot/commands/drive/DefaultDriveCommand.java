@@ -92,10 +92,10 @@ public class DefaultDriveCommand extends LoggingCommand {
 
         // FIXME: what should we put here?
         if (boost == true) {
-            driveSubsystem.setMotorSpeeds(speed - turn * 2, speed + turn * 2);
+            driveSubsystem.setMotorSpeeds(speed - turn, speed + turn);
         }
         else {
-            driveSubsystem.setMotorSpeeds(speed - turn, speed + turn);
+            driveSubsystem.setMotorSpeeds((speed - turn) / 2, (speed + turn) / 2);
         }
     }
 
