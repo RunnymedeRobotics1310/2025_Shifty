@@ -42,7 +42,7 @@ public class DefaultDriveCommand extends LoggingCommand {
 
         DriveMode driveMode = driveModeChooser.getSelected();
 
-        boolean   boost     = driverController.getRightBumper();
+        boolean   boost     = driverController.getYButton();
         boolean   shift     = driverController.getLeftBumper();
 
         SmartDashboard.putBoolean("Boost", boost);
