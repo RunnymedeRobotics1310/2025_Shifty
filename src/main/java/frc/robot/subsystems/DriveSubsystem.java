@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -21,7 +20,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     // The motors on the right side of the drive.
     private final TalonSRX     rightPrimaryMotor  = new TalonSRX(DriveConstants.RIGHT_MOTOR_PORT);
-    private final VictorSPX    rightFollowerMotor = new VictorSPX(DriveConstants.RIGHT_MOTOR_PORT + 1);
+    private final TalonSRX     rightFollowerMotor = new TalonSRX(DriveConstants.RIGHT_MOTOR_PORT + 1);
 
     private final DigitalInput targetSensor       = new DigitalInput(1);
 
