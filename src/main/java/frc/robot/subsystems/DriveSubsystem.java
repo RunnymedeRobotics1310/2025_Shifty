@@ -8,8 +8,10 @@ import com.studica.frc.AHRS;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotGearing;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotMotor;
@@ -57,47 +59,51 @@ public class DriveSubsystem extends SubsystemBase {
     private final LightsSubsystem     lightsSubsystem;
 
     // The motors on the left side of the drive.
-    private final TalonSRX        leftPrimaryMotor         = new TalonSRX(DriveConstants.LEFT_MOTOR_CAN_ID);
-    private final TalonSRX        leftFollowerMotor        = new TalonSRX(DriveConstants.LEFT_MOTOR_CAN_ID + 1);
+    private final TalonSRX            leftPrimaryMotor         = new TalonSRX(DriveConstants.LEFT_MOTOR_CAN_ID);
+    private final TalonSRX            leftFollowerMotor        = new TalonSRX(DriveConstants.LEFT_MOTOR_CAN_ID + 1);
 
     // The motors on the right side of the drive.
-    private final TalonSRX            rightPrimaryMotor  = new TalonSRX(DriveConstants.RIGHT_MOTOR_CAN_ID);
-    private final TalonSRX            rightFollowerMotor = new TalonSRX(DriveConstants.RIGHT_MOTOR_CAN_ID + 1);
-    
-    private final DigitalInput    targetSensor             = new DigitalInput(0);
+    private final TalonSRX            rightPrimaryMotor        = new TalonSRX(DriveConstants.RIGHT_MOTOR_CAN_ID);
+    private final TalonSRX            rightFollowerMotor       = new TalonSRX(DriveConstants.RIGHT_MOTOR_CAN_ID + 1);
+
+    private final DigitalInput        targetSensor             = new DigitalInput(0);
+
+    private Solenoid                  shifter                  = new Solenoid(PneumaticsModuleType.CTREPCM,
+        DriveConstants.SHIFTER_PNEUMATIC_PORT);
+
 
     // Conversion from volts to distance in cm
     // Volts distance
     // 0.12 30.5 cm
     // 2.245 609.6 cm
-    private final AnalogInput     ultrasonicDistanceSensor = new AnalogInput(0);
+    private final AnalogInput         ultrasonicDistanceSensor = new AnalogInput(0);
 
-    private final double          ULTRASONIC_M             = (609.6 - 30.5) / (2.245 - .12);
-    private final double          ULTRASONIC_B             = 609.6 - ULTRASONIC_M * 2.245;
+    private final double              ULTRASONIC_M             = (609.6 - 30.5) / (2.245 - .12);
+    private final double              ULTRASONIC_B             = 609.6 - ULTRASONIC_M * 2.245;
 
 
-    private double                    leftSpeed          = 0;
-    private double                    rightSpeed         = 0;
+    private double                    leftSpeed                = 0;
+    private double                    rightSpeed               = 0;
 
-    private double                    leftEncoderOffset  = 0;
-    private double                    rightEncoderOffset = 0;
+    private double                    leftEncoderOffset        = 0;
+    private double                    rightEncoderOffset       = 0;
 
     /*
      * Gyro
      */
-    private NavXGyro                  navXGyro           = new NavXGyro();
+    private NavXGyro                  navXGyro                 = new NavXGyro();
 
-    private double                    gyroHeadingOffset  = 0;
-    private double                    gyroPitchOffset    = 0;
+    private double                    gyroHeadingOffset        = 0;
+    private double                    gyroPitchOffset          = 0;
 
     /*
      * Simulation fields
      */
-    private Field2d                   field              = null;
-    private DifferentialDrivetrainSim drivetrainSim      = null;
-    private double                    simAngle           = 0;
-    private double                    simLeftEncoder     = 0;
-    private double                    simRightEncoder    = 0;
+    private Field2d                   field                    = null;
+    private DifferentialDrivetrainSim drivetrainSim            = null;
+    private double                    simAngle                 = 0;
+    private double                    simLeftEncoder           = 0;
+    private double                    simRightEncoder          = 0;
 
     /** Creates a new DriveSubsystem. */
     public DriveSubsystem(LightsSubsystem lightsSubsystem) {
@@ -328,6 +334,10 @@ public class DriveSubsystem extends SubsystemBase {
         // motors
     }
 
+    public void setShift(boolean shift) {
+        shifter.set(shift);
+    }
+
     /** Safely stop the subsystem from moving */
     public void stop() {
         setMotorSpeeds(0, 0);
@@ -357,6 +367,7 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Ultrasonic Voltage", ultrasonicDistanceSensor.getVoltage());
         SmartDashboard.putNumber("Ultrasonic Distance (cm)", getUltrasonicDistanceCm());
 
+        SmartDashboard.putBoolean("Shifter", shifter.get());
     }
 
     @Override

@@ -34,16 +34,16 @@ public class DefaultDriveCommand extends LoggingCommand {
     @Override
     public void execute() {
 
+        // Set the pnuematic shifter based on the driver boost button.
+        driveSubsystem.setShift(operatorInput.isBoost());
+
         // Get the selected drive mode
         DriveMode driveMode          = operatorInput.getSelectedDriveMode();
 
         // Calculate the drive scaling factor based on the boost mode and the slow mode.
         double    driveScalingFactor = DriveConstants.DRIVE_SCALING_NORMAL;
 
-        if (operatorInput.isBoost()) {
-            driveScalingFactor = DriveConstants.DRIVE_SCALING_BOOST;
-        }
-        if (operatorInput.isSlowDown()) {
+        if (operatorInput.isSlowDown() && !operatorInput.isBoost()) {
             driveScalingFactor = DriveConstants.DRIVE_SCALING_SLOW;
         }
 
@@ -64,7 +64,6 @@ public class DefaultDriveCommand extends LoggingCommand {
 
             setArcadeDriveMotorSpeeds(speed, turn, driveScalingFactor);
         }
-
     }
 
     @Override
