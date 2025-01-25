@@ -1,9 +1,9 @@
-package frc.robot.operator;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
 
 /**
- * The Game Controller extends {@link XboxController}
+ * The TorontoCodingCollective Game Controller extends {@link XboxController}
  * <p>
  * This class adds deadbanding to the axes values (X,Y) of the
  * left and right joysticks on the XBox controller, as well as the Triggers
@@ -11,50 +11,63 @@ import edu.wpi.first.wpilibj.XboxController;
  * Deadbanding of the axis values is is intended to prevent 'drift' or movement of the robot
  * when the operators are not touching the controls.
  * <p>
- * Since the GameController overrides the {@link XboxController#getRawAxis} method,
- * an additional method {#link {@link #getHardwareAxisValue} is provided to retrieve
+ * Since the TccGameController overrides the {@link XboxController#getRawAxis} method,
+ * an additional method {@link #getHardwareAxisValue} is provided to retrieve
  * the underlying hardware values
  */
 public class GameController extends XboxController {
 
-    public static final double DEFAULT_AXIS_DEADBAND = .2;
+    public static final double DEFAULT_GAME_CONTROLLER_AXIS_DEADBAND = .2;
 
-    private double             axisDeadband          = DEFAULT_AXIS_DEADBAND;
+    private double             axisDeadband                          = DEFAULT_GAME_CONTROLLER_AXIS_DEADBAND;
 
     /**
-     * Construct a GameController on the specified port
+     * Construct a TorontoCodingCollectiveGameController on the specified port
      * <p>
-     * Uses the {{@link #DEFAULT_AXIS_DEADBAND} as the joystick deadband
+     * Uses the {{@link #DEFAULT_GAME_CONTROLLER_AXIS_DEADBAND} as the joystick deadband
      *
      * @param port on the driver station which the joystick is plugged into
      */
     public GameController(int port) {
-        this(port, DEFAULT_AXIS_DEADBAND);
+        this(port, DEFAULT_GAME_CONTROLLER_AXIS_DEADBAND);
     }
 
     /**
-     * Construct a GameController on the specified port with the specified deadband
+     * Construct a TorontoCodingCollective TccGameController on the specified port with the specified deadband
      *
      * @param port on the driver station which the joystick is plugged into
      * @param axisDeadband (0 - 0.4) to use for all axis values on this controller. When the
      * axis value from the hardware is less than the specified value, then the axis will return
      * zero. Setting the axisDeadbanding to zero turns off all deadbanding.
      * Values < 0 or > 0.4 are ignored, and
-     * the {@link #DEFAULT_AXIS_DEADBAND} value is used.
+     * the {@link #DEFAULT_GAME_CONTROLLER_AXIS_DEADBAND} value is used.
      */
     public GameController(int port, final double axisDeadband) {
         super(port);
 
         if (axisDeadband < 0 || axisDeadband > 0.4) {
             System.out.println("Invalid axis deadband(" + axisDeadband + ") must be between 0 - 0.4. Overriding value to "
-                + DEFAULT_AXIS_DEADBAND);
-            setAxisDeadband(DEFAULT_AXIS_DEADBAND);
+                + DEFAULT_GAME_CONTROLLER_AXIS_DEADBAND);
+            setAxisDeadband(DEFAULT_GAME_CONTROLLER_AXIS_DEADBAND);
         }
         else {
             setAxisDeadband(axisDeadband);
         }
     }
 
+    /**
+     * Get the value of the axis with the deadbanding applied.
+     * <p>
+     * This routine overrides the HID interface to apply deadbanding to the
+     * axis values on the underlying XBoxGameController.
+     * <p>
+     * For the Y-axis of the left and right stick, the value is inverted so
+     * that pushing the stick forward (away from the operator) returns a
+     * positive Y value instead of negative Y value from the hardware.
+     *
+     * @param axis The axis to read, starting at 0.
+     * @return The value of the axis.
+     */
     @Override
     public double getRawAxis(int axis) {
 
@@ -79,14 +92,24 @@ public class GameController extends XboxController {
             axisValue  = value;
         }
 
-        // The Y axis values should be inverted in order to make North (away
-        // from the driver) positive.
+        // The Y axis values should be inverted in order to make the direction away from the driver positive.
         if (axis == XboxController.Axis.kLeftY.value || axis == XboxController.Axis.kRightY.value) {
             axisValue *= -1.0;
         }
 
-        // Round the value to 2 decimal places
-        return Math.round(axisValue * 100) / 100.0d;
+        return axisValue;
+    }
+
+    /**
+     * Set the current axis deadband on the stick and trigger axes of this gameController
+     * <p>
+     * Use the method {@link #getRawHardwareAxisValue(int)} to get the hardware value
+     * coming off the game controller axis before deadbanding.
+     *
+     * @returns axisDeadband used for all axis values on this controller.
+     */
+    public double getAxisDeadband() {
+        return this.axisDeadband;
     }
 
     /**
@@ -119,8 +142,6 @@ public class GameController extends XboxController {
 
     /**
      * Get the raw hardware axis value (unmodified by the deadband)
-     * <p>
-     * This method could be used to debug potential hardware issues.
      *
      * @param axis see {@link XboxController.Axis} for list of axis constants
      */
@@ -133,23 +154,60 @@ public class GameController extends XboxController {
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append('(').append(getLeftX()).append(',').append(getLeftY()).append(") ")
-            .append('(').append(getRightX()).append(',').append(getRightY()).append(") ")
-            .append("T(").append(getRightTriggerAxis()).append(',').append(getLeftTriggerAxis()).append(")");
+        /*
+         * Axis
+         */
+        // Left stick
+        sb.append('(').append(Math.round(getLeftX() * 100d) / 100d).append(',')
+            .append(Math.round(getLeftY() * 100d) / 100d).append(')');
 
-        sb.append(getAButton() ? " A" : "");
-        sb.append(getBButton() ? " B" : "");
-        sb.append(getXButton() ? " X" : "");
-        sb.append(getYButton() ? " Y" : "");
+        // Right stick
+        sb.append('(').append(Math.round(getRightX() * 100d) / 100d).append(',')
+            .append(Math.round(getRightY() * 100d) / 100d).append(')');
 
-        sb.append(getLeftBumper() ? " Lb" : "");
-        sb.append(getRightBumper() ? " Rb" : "");
+        // Triggers
+        sb.append('[').append(Math.round(getLeftTriggerAxis() * 100d) / 100d).append(',')
+            .append(Math.round(getRightTriggerAxis() * 100d) / 100d).append("] ");
 
-        sb.append(getStartButton() ? " Start" : "");
-        sb.append(getBackButton() ? " Back" : "");
-
+        /*
+         * POV
+         */
         if (getPOV() >= 0) {
-            sb.append("POV(").append(getPOV()).append('0');
+            sb.append("POV(").append(getPOV()).append(") ");
+        }
+
+        /*
+         * Buttons
+         */
+        if (getLeftBumperButton()) {
+            sb.append("LB ");
+        }
+        if (getRightBumperButton()) {
+            sb.append("RB ");
+        }
+        if (getAButton()) {
+            sb.append("A ");
+        }
+        if (getBButton()) {
+            sb.append("B ");
+        }
+        if (getXButton()) {
+            sb.append("X ");
+        }
+        if (getYButton()) {
+            sb.append("Y ");
+        }
+        if (getBackButton()) {
+            sb.append("Back ");
+        }
+        if (getBackButton()) {
+            sb.append("Start ");
+        }
+        if (getLeftStickButtonPressed()) {
+            sb.append("LStick ");
+        }
+        if (getRightStickButtonPressed()) {
+            sb.append("RStick ");
         }
 
         return sb.toString();

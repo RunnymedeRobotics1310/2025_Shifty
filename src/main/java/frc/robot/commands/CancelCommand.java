@@ -1,6 +1,6 @@
 package frc.robot.commands;
 
-import frc.robot.operator.OperatorInput;
+import frc.robot.OperatorInput;
 import frc.robot.subsystems.DriveSubsystem;
 
 /**
@@ -51,7 +51,7 @@ public class CancelCommand extends LoggingCommand {
     public boolean isFinished() {
 
         // The cancel command has a minimum timeout of .5 seconds
-        if (!isTimeoutExceeded(.5)) {
+        if (!hasElapsed(.5)) {
             return false;
         }
 

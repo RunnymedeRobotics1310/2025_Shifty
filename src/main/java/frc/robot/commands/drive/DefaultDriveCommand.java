@@ -1,98 +1,124 @@
 package frc.robot.commands.drive;
 
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.DriveConstants.DriveMode;
+import frc.robot.OperatorInput;
 import frc.robot.commands.LoggingCommand;
-import frc.robot.operator.GameController;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class DefaultDriveCommand extends LoggingCommand {
 
-    private final DriveSubsystem             driveSubsystem;
-    private final XboxController             driverController;
-    private final SendableChooser<DriveMode> driveModeChooser;
+    private final DriveSubsystem driveSubsystem;
+    private final OperatorInput  operatorInput;
 
     /**
-     * Creates a new ExampleCommand.
+     * Creates a new DefaultDriveCommand.
      *
+     * @param operatorInput which contains the drive mode selector.
      * @param driveSubsystem The subsystem used by this command.
      */
-    public DefaultDriveCommand(GameController driverController, SendableChooser<DriveMode> driveModeChooser,
-        DriveSubsystem driveSubsystem) {
+    public DefaultDriveCommand(OperatorInput operatorInput, DriveSubsystem driveSubsystem) {
 
-        this.driverController = driverController;
-        this.driveModeChooser = driveModeChooser;
-        this.driveSubsystem   = driveSubsystem;
+        this.operatorInput  = operatorInput;
+        this.driveSubsystem = driveSubsystem;
 
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(driveSubsystem);
     }
 
-    // Called when the command is initially scheduled.
     @Override
     public void initialize() {
         logCommandStart();
     }
 
-    // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
 
-        DriveMode driveMode = driveModeChooser.getSelected();
+        // Get the selected drive mode
+        DriveMode driveMode          = operatorInput.getSelectedDriveMode();
 
-        boolean   boost     = driverController.getRightBumper();
-        boolean   shift     = driverController.getLeftBumper();
+        // Calculate the drive scaling factor based on the boost mode and the slow mode.
+        double    driveScalingFactor = DriveConstants.DRIVE_SCALING_NORMAL;
 
-        SmartDashboard.putBoolean("Boost", boost);
-
-        switch (driveMode) {
-
-        case DUAL_STICK_ARCADE:
-            setMotorSpeedsArcade(driverController.getLeftY(), driverController.getRightX(), boost);
-            break;
-
-        case SINGLE_STICK_ARCADE:
-            setMotorSpeedsArcade(driverController.getLeftY(), driverController.getLeftX(), boost);
-            break;
-
-        case TANK:
-        default:
-
-            if (boost) {
-                driveSubsystem.setMotorSpeeds(driverController.getLeftY(), driverController.getRightY());
-            }
-            else {
-                // If not in boost mode, then divide the motors speeds in half
-                driveSubsystem.setMotorSpeeds(driverController.getLeftY() / 2.0, driverController.getRightY() / 2.0);
-            }
-            break;
+        if (operatorInput.isBoost()) {
+            driveScalingFactor = DriveConstants.DRIVE_SCALING_BOOST;
+        }
+        if (operatorInput.isSlowDown()) {
+            driveScalingFactor = DriveConstants.DRIVE_SCALING_SLOW;
         }
 
-        driveSubsystem.setShift(shift);
+        // If this is a tank drive robot, then the left and right speeds are set from the
+        // joystick values.
+        if (driveMode == DriveMode.TANK) {
+
+            double leftSpeed  = operatorInput.getLeftSpeed();
+            double rightSpeed = operatorInput.getRightSpeed();
+
+            setTankDriveMotorSpeeds(leftSpeed, rightSpeed, driveScalingFactor);
+
+        }
+        else {
+
+            double speed = operatorInput.getSpeed();
+            double turn  = operatorInput.getTurn();
+
+            setArcadeDriveMotorSpeeds(speed, turn, driveScalingFactor);
+        }
 
     }
 
-    // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        // The default drive command never ends, but can be interrupted by other commands.
-        return false;
+        return false; // default commands never end but can be interrupted
     }
 
-    // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+
         logCommandEnd(interrupted);
-        SmartDashboard.putBoolean("Boost", false);
     }
 
-    private void setMotorSpeedsArcade(double speed, double turn, boolean boost) {
 
-        // FIXME: what should we put here?
-        driveSubsystem.setMotorSpeeds(0, 0);
+    /**
+     * Set the motor speeds based on tank drive.
+     *
+     * @param leftSpeed value
+     * @param rightSpeed value
+     * @param driveScalingFactor
+     */
+    private void setTankDriveMotorSpeeds(double leftSpeed, double rightSpeed, double driveScalingFactor) {
+
+        double speed = (leftSpeed + rightSpeed) / 2.0;
+        double turn  = (leftSpeed - rightSpeed) / 2.0;
+
+        setArcadeDriveMotorSpeeds(speed, turn, driveScalingFactor);
     }
 
+
+    /**
+     * Calculate the scaled arcade drive speeds from the passed in values. In arcade mode, the turn
+     * is cut in half to help control the robot more consistently.
+     *
+     * @param speed
+     * @param turn
+     * @param driveScalingFactor
+     */
+    private void setArcadeDriveMotorSpeeds(double speed, double turn, double driveScalingFactor) {
+
+        // Cut the spin in half because it will be applied to both sides.
+        // Spinning at 1.0, should apply 0.5 to each side.
+        turn = turn / 2.0;
+
+        // Keep the turn, and reduce the forward speed where required to have the
+        // maximum turn.
+        if (Math.abs(speed) + Math.abs(turn) > 1.0) {
+            speed = (1.0 - Math.abs(turn)) * Math.signum(speed);
+        }
+
+        double leftSpeed  = (speed + turn) * driveScalingFactor;
+        double rightSpeed = (speed - turn) * driveScalingFactor;
+
+        driveSubsystem.setMotorSpeeds(leftSpeed, rightSpeed);
+    }
 
 }
