@@ -57,6 +57,12 @@ public final class Constants {
         public static final int     SHIFTER_PNEUMATIC_PORT = 0;
     }
 
+    public static final class AlgaeConstants {
+
+        public static final int INTAKE_MOTOR_CAN_ID       = 40;
+        public static final int INTAKE_ARM_PNEUMATIC_PORT = 1;
+    }
+
     public static final class LightsConstants {
 
         public static final int LED_STRING_PWM_PORT = 9;
