@@ -57,6 +57,11 @@ public final class Constants {
         public static final int     SHIFTER_PNEUMATIC_PORT = 0;
     }
 
+    public static final class ClimbConstants {
+
+        public static final int CLIMB_PISTON_PNEUMATICS_PORT = 2;
+    }
+
     public static final class LightsConstants {
 
         public static final int LED_STRING_PWM_PORT = 9;
