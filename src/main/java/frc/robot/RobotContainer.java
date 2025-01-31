@@ -26,6 +26,7 @@ public class RobotContainer {
     // constructors so that they can indicate status information on the lights
     private final LightsSubsystem lightsSubsystem = new LightsSubsystem();
     private final DriveSubsystem  driveSubsystem  = new DriveSubsystem(lightsSubsystem);
+    // FIXME: add Algae
 
     // Driver and operator controllers
     private final OperatorInput   operatorInput   = new OperatorInput();
