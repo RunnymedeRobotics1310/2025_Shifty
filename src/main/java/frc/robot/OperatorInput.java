@@ -12,6 +12,7 @@ import frc.robot.Constants.OperatorInputConstants;
 import frc.robot.commands.CancelCommand;
 import frc.robot.commands.GameController;
 import frc.robot.commands.drive.DriveOnHeadingCommand;
+import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
 /**
@@ -65,7 +66,7 @@ public class OperatorInput extends SubsystemBase {
      *
      * @param driveSubsystem
      */
-    public void configureButtonBindings(DriveSubsystem driveSubsystem) {
+    public void configureButtonBindings(DriveSubsystem driveSubsystem, AlgaeSubsystem algaeSubsystem) {
 
         // Cancel Command - cancels all running commands on all subsystems
         new Trigger(() -> isCancel())
@@ -156,6 +157,14 @@ public class OperatorInput extends SubsystemBase {
         }
 
         return driverController.getRightX();
+    }
+
+    public double inTakeAlgae() {
+        return driverController.getLeftTriggerAxis();
+    }
+
+    public double outTakeAlgae() {
+        return driverController.getRightTriggerAxis();
     }
 
     /*

@@ -4,12 +4,12 @@ import frc.robot.OperatorInput;
 import frc.robot.commands.LoggingCommand;
 import frc.robot.subsystems.AlgaeSubsystem;
 
-public class OuttakeAlgaeCommand extends LoggingCommand {
+public class InttakeAlgaeCommand extends LoggingCommand {
 
     private final OperatorInput  operatorInput;
     private final AlgaeSubsystem algaeSubsystem;
 
-    public OuttakeAlgaeCommand(OperatorInput operatorInput, AlgaeSubsystem algaeSubsystem) {
+    public InttakeAlgaeCommand(OperatorInput operatorInput, AlgaeSubsystem algaeSubsystem) {
 
         this.operatorInput  = operatorInput;
         this.algaeSubsystem = algaeSubsystem;
@@ -20,9 +20,11 @@ public class OuttakeAlgaeCommand extends LoggingCommand {
 
     public void initialize() {
         // placeholder
+        logCommandStart();
     }
 
     public void execute() {
+        double intakeSpeed = operatorInput.inTakeAlgae();
         // placeholder
     }
 
@@ -32,9 +34,8 @@ public class OuttakeAlgaeCommand extends LoggingCommand {
     }
 
     public void end(boolean interrupted) {
-
         logCommandEnd(interrupted);
 
     }
-
 }
+

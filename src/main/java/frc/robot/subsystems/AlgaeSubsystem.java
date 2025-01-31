@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -34,7 +35,7 @@ public class AlgaeSubsystem extends SubsystemBase {
 
         checkSafety();
 
-        // intakeMotor.set(ControlMode.PercentOutput, intakeSpeed);
+        intakeMotor.set(ControlMode.PercentOutput, intakeSpeed);
     }
 
     /*
@@ -53,6 +54,8 @@ public class AlgaeSubsystem extends SubsystemBase {
     public void periodic() {
 
         checkSafety();
+
+        lightsSubsystem.setIntakeSpeeds(intakeSpeed);
 
         // FIXME: Add a call to the lights subsystem to show the current speed or height
         // lightsSubsystem.setAlgae..();

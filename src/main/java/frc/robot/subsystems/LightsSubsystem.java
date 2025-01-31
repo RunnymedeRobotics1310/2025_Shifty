@@ -50,6 +50,14 @@ public class LightsSubsystem extends SubsystemBase {
 
     }
 
+    public void setIntakeSpeeds(double intakeSpeed) {
+        LEDPattern.kOff.applyTo(leftSpeedBuffer);
+        LEDPattern.kOff.applyTo(rightSpeedBuffer);
+
+        setSpeedPixel(intakeSpeed, leftSpeedBuffer);
+        setSpeedPixel(intakeSpeed, rightSpeedBuffer);
+    }
+
     private void setSpeedPixel(double speed, AddressableLEDBufferView speedBuffer) {
 
         int center     = speedBuffer.getLength() / 2;

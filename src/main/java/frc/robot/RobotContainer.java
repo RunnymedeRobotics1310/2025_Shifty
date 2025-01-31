@@ -8,8 +8,10 @@ import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.algae.InttakeAlgaeCommand;
 import frc.robot.commands.auto.AutoCommand;
 import frc.robot.commands.drive.DefaultDriveCommand;
+import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LightsSubsystem;
 
@@ -26,6 +28,7 @@ public class RobotContainer {
     // constructors so that they can indicate status information on the lights
     private final LightsSubsystem lightsSubsystem = new LightsSubsystem();
     private final DriveSubsystem  driveSubsystem  = new DriveSubsystem(lightsSubsystem);
+    private final AlgaeSubsystem  algaeSubsystem  = new AlgaeSubsystem(lightsSubsystem);
     // FIXME: add Algae
 
     // Driver and operator controllers
@@ -39,7 +42,9 @@ public class RobotContainer {
             new DefaultDriveCommand(operatorInput, driveSubsystem));
 
         // Configure the button bindings - pass in all subsystems
-        operatorInput.configureButtonBindings(driveSubsystem);
+        operatorInput.configureButtonBindings(driveSubsystem, algaeSubsystem);
+
+        algaeSubsystem.setDefaultCommand(new InttakeAlgaeCommand(operatorInput, algaeSubsystem));
 
         // Add a trigger to flash the LEDs in sync with the
         // RSL light for 5 flashes when the robot is enabled
