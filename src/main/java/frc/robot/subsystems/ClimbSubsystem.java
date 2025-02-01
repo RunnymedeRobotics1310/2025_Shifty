@@ -1,9 +1,16 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DriveConstants;
 
 public class ClimbSubsystem extends SubsystemBase {
+
+    private Solenoid              climbPiston   = new Solenoid(PneumaticsModuleType.CTREPCM,
+        DriveConstants.SHIFTER_PNEUMATIC_PORT);
+
 
     private final LightsSubsystem lightsSubsystem;
 
@@ -15,6 +22,10 @@ public class ClimbSubsystem extends SubsystemBase {
     public ClimbSubsystem(LightsSubsystem lightsSubsystem) {
 
         this.lightsSubsystem = lightsSubsystem;
+    }
+
+    public void extendClimbPiston(boolean deployClimb) {
+        climbPiston.set(deployClimb);
     }
 
     /*
@@ -38,6 +49,7 @@ public class ClimbSubsystem extends SubsystemBase {
         // lightsSubsystem.setClimb..();
 
         SmartDashboard.putBoolean("Climb Deployed", isClimbDeployed());
+
 
         // FIXME: what else should we put on the SmartDashboard
     }

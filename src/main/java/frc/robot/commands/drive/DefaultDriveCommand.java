@@ -38,14 +38,14 @@ public class DefaultDriveCommand extends LoggingCommand {
         driveSubsystem.setShift(operatorInput.isBoost());
 
         // Get the selected drive mode
-        DriveMode driveMode          = operatorInput.getSelectedDriveMode();
+        DriveMode driveMode = operatorInput.getSelectedDriveMode();
 
         // Calculate the drive scaling factor based on the boost mode and the slow mode.
-        double    driveScalingFactor = DriveConstants.DRIVE_SCALING_NORMAL;
+        double driveScalingFactor = DriveConstants.DRIVE_SCALING_NORMAL;
 
-        if (operatorInput.isSlowDown() && !operatorInput.isBoost()) {
-            driveScalingFactor = DriveConstants.DRIVE_SCALING_SLOW;
-        }
+        // if (operatorInput.isSlowDown() && !operatorInput.isBoost()) {
+        // driveScalingFactor = DriveConstants.DRIVE_SCALING_SLOW;
+        // }
 
         // If this is a tank drive robot, then the left and right speeds are set from the
         // joystick values.

@@ -8,10 +8,8 @@ import com.studica.frc.AHRS;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotGearing;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotMotor;
@@ -56,20 +54,20 @@ public class DriveSubsystem extends SubsystemBase {
         }
     }
 
-    private final LightsSubsystem     lightsSubsystem;
+    private final LightsSubsystem lightsSubsystem;
 
     // The motors on the left side of the drive.
-    private final TalonSRX            leftPrimaryMotor         = new TalonSRX(DriveConstants.LEFT_MOTOR_CAN_ID);
-    private final TalonSRX            leftFollowerMotor        = new TalonSRX(DriveConstants.LEFT_MOTOR_CAN_ID + 1);
+    private final TalonSRX        leftPrimaryMotor   = new TalonSRX(DriveConstants.LEFT_MOTOR_CAN_ID);
+    private final TalonSRX        leftFollowerMotor  = new TalonSRX(DriveConstants.LEFT_MOTOR_CAN_ID + 1);
 
     // The motors on the right side of the drive.
-    private final TalonSRX            rightPrimaryMotor        = new TalonSRX(DriveConstants.RIGHT_MOTOR_CAN_ID);
-    private final TalonSRX            rightFollowerMotor       = new TalonSRX(DriveConstants.RIGHT_MOTOR_CAN_ID + 1);
+    private final TalonSRX        rightPrimaryMotor  = new TalonSRX(DriveConstants.RIGHT_MOTOR_CAN_ID);
+    private final TalonSRX        rightFollowerMotor = new TalonSRX(DriveConstants.RIGHT_MOTOR_CAN_ID + 1);
 
-    private final DigitalInput        targetSensor             = new DigitalInput(0);
+    private final DigitalInput    targetSensor       = new DigitalInput(0);
 
-    private Solenoid                  shifter                  = new Solenoid(PneumaticsModuleType.CTREPCM,
-        DriveConstants.SHIFTER_PNEUMATIC_PORT);
+    // private Solenoid shifter = new Solenoid(PneumaticsModuleType.CTREPCM,
+    // DriveConstants.SHIFTER_PNEUMATIC_PORT);
 
 
     // Conversion from volts to distance in cm
@@ -335,7 +333,7 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void setShift(boolean shift) {
-        shifter.set(shift);
+        // shifter.set(shift);
     }
 
     /** Safely stop the subsystem from moving */
@@ -367,7 +365,7 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Ultrasonic Voltage", ultrasonicDistanceSensor.getVoltage());
         SmartDashboard.putNumber("Ultrasonic Distance (cm)", getUltrasonicDistanceCm());
 
-        SmartDashboard.putBoolean("Shifter", shifter.get());
+        // SmartDashboard.putBoolean("Shifter", shifter.get());
     }
 
     @Override
