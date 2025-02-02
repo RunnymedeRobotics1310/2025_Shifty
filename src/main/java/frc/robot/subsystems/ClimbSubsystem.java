@@ -25,12 +25,14 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public void extendClimbPiston(boolean deployClimb) {
+        // FIXME: Capture the passed in state
+        // The variable climbDeployed needs to track the last value
+        // passed into the extendClimbPison method.
         climbPiston.set(deployClimb);
     }
 
     /*
      * Climb Routines
-     * FIXME: Make some arm routines
      */
     public boolean isClimbDeployed() {
         return climbDeployed;
