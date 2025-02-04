@@ -33,7 +33,8 @@ public class DefaultAlgaeCommand extends LoggingCommand {
     public void execute() {
 
         if (operatorInput.startAlgaeIntake() >= 0.5) {
-            algaeIntakeState = true;
+            algaeIntakeState  = true;
+            algaeOuttakeState = false;
         }
 
         if (operatorInput.startAlgaeIntake() <= 0.5) {
@@ -48,13 +49,34 @@ public class DefaultAlgaeCommand extends LoggingCommand {
             algaeOuttakeState = false;
         }
 
-
-        if (algaeIntakeState = false) {
-            log("UR SO OFF DUDE");
+        if (operatorInput.startAlgaeIntake() >= 0.5 && operatorInput.startAlgaeOuttake() >= 0.5) { // Cannot
+                                                                                                   // activate
+                                                                                                   // both
+                                                                                                   // trigger
+                                                                                                   // buttons
+                                                                                                   // at
+                                                                                                   // the
+                                                                                                   // same
+                                                                                                   // time.
+            algaeIntakeState  = false;
+            algaeOuttakeState = false;
         }
 
-        if (algaeIntakeState = true) {
-            log("SO ONLINE");
+        // Debugging (Works)
+        if (!algaeIntakeState) {
+            log("Algae OFF");
+        }
+
+        else {
+            log("Algae O");
+        }
+
+        if (!algaeOuttakeState) {
+            log("Outtake OFF");
+        }
+
+        else {
+            log("Outtake O");
         }
     }
 
