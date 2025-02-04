@@ -20,6 +20,8 @@ public class LightsSubsystem extends SubsystemBase {
     private final AddressableLEDBufferView    leftSpeedBuffer  = new AddressableLEDBufferView(ledBuffer, 1, 28);
     private final AddressableLEDBufferView    rightSpeedBuffer = new AddressableLEDBufferView(ledBuffer, 31, 58).reversed();
 
+    private final AddressableLEDBufferView    climbBuffer      = new AddressableLEDBufferView(ledBuffer, 1, 58);
+
     // RSL Flash
     private static final Color                RSL_COLOR        = new Color(255, 20, 0);
     private static final AddressableLEDBuffer RSL_ON           = new AddressableLEDBuffer(LightsConstants.LED_STRING_LENGTH);
@@ -28,6 +30,9 @@ public class LightsSubsystem extends SubsystemBase {
     private boolean                           simRslState      = false;
     private int                               rslFlashCount    = -1;
     private boolean                           previousRslState = false;
+
+    // Climbed light pattern
+    LEDPattern                                kClimbed         = LEDPattern.solid(Color.kRed);
 
     public LightsSubsystem() {
 
@@ -48,6 +53,21 @@ public class LightsSubsystem extends SubsystemBase {
         setSpeedPixel(leftSpeed, leftSpeedBuffer);
         setSpeedPixel(rightSpeed, rightSpeedBuffer);
 
+    }
+
+
+
+    public void setClimbLights(boolean climbDeployed) {
+        if (climbDeployed) {
+            for (int i = 0; i < climbBuffer.getLength(); i++) {
+                climbBuffer.setLED(i, Color.kGreen);
+            }
+            if (!climbDeployed) {
+                for (int i = 0; i < climbBuffer.getLength(); i++) {
+                    climbBuffer.setLED(i, Color.kBlack);
+                }
+            }
+        }
     }
 
     private void setSpeedPixel(double speed, AddressableLEDBufferView speedBuffer) {

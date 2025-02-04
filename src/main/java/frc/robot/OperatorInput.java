@@ -89,16 +89,15 @@ public class OperatorInput extends SubsystemBase {
         // new Trigger(() ->
         // (driverController.getPOV == 0 && driverController.isRightBumperPressed()) ) ...
 
-        if (isRightBumper()) {
-            System.out.println("right bumper");
-            new Trigger(() -> driverController.getPOV() == 0)
-                .onTrue(new ClimbCommand(1000, true, climbSubsystem));
-            System.out.println("climb up");
 
-            new Trigger(() -> driverController.getPOV() == 180)
-                .onTrue(new ClimbCommand(1000, false, climbSubsystem));
+        new Trigger(() -> driverController.getRightBumperButton() && driverController.getPOV() == 0)
+            .onTrue(new ClimbCommand(2000, true, climbSubsystem));
 
-        }
+        new Trigger(() -> driverController.getRightBumperButton() && driverController.getPOV() == 180)
+            .onTrue(new ClimbCommand(2000, false, climbSubsystem));
+
+
+
     }
 
     /*

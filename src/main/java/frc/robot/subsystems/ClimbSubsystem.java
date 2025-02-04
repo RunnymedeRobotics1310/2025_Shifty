@@ -35,6 +35,7 @@ public class ClimbSubsystem extends SubsystemBase {
      * Climb Routines
      */
     public boolean isClimbDeployed() {
+        climbDeployed = climbPiston.get();
         return climbDeployed;
     }
 
@@ -49,6 +50,8 @@ public class ClimbSubsystem extends SubsystemBase {
 
         // FIXME: Add a call to the lights subsystem to show the current speed or height
         // lightsSubsystem.setClimb..();
+
+        lightsSubsystem.setClimbLights(isClimbDeployed());
 
         SmartDashboard.putBoolean("Climb Deployed", isClimbDeployed());
 
