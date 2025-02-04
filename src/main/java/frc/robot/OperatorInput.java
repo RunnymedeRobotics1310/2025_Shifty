@@ -79,22 +79,12 @@ public class OperatorInput extends SubsystemBase {
                 driveSubsystem.resetEncoders();
             }));
 
-        // FIXME: The configureButtonBinding method only gets called once, at the beginning of the
-        // program and will never be called again.
-        // The isRightBumper() routine here will only register the trigger if the button is being
-        // pressed when the robot starts up, and will never be looked at again
-        // (hence the println never executes).
-
-        // I think you want something like
-        // new Trigger(() ->
-        // (driverController.getPOV == 0 && driverController.isRightBumperPressed()) ) ...
-
 
         new Trigger(() -> driverController.getRightBumperButton() && driverController.getPOV() == 0)
-            .onTrue(new ClimbCommand(2000, true, climbSubsystem));
+            .onTrue(new ClimbCommand(true, climbSubsystem));
 
         new Trigger(() -> driverController.getRightBumperButton() && driverController.getPOV() == 180)
-            .onTrue(new ClimbCommand(2000, false, climbSubsystem));
+            .onTrue(new ClimbCommand(false, climbSubsystem));
 
 
 

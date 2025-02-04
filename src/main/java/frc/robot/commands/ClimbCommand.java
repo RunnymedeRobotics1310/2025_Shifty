@@ -7,7 +7,7 @@ public class ClimbCommand extends LoggingCommand {
     private final boolean        deployClimb;
     private final ClimbSubsystem climbSubsystem;
 
-    public ClimbCommand(double duraitionMillis, boolean deployClimb, ClimbSubsystem climbSubsystem) {
+    public ClimbCommand(boolean deployClimb, ClimbSubsystem climbSubsystem) {
 
         this.deployClimb    = deployClimb;
         this.climbSubsystem = climbSubsystem;
