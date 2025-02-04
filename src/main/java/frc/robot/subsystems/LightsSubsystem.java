@@ -56,8 +56,7 @@ public class LightsSubsystem extends SubsystemBase {
     }
 
 
-
-    public void setClimbLights(boolean climbDeployed) {
+    public void setClimbDeployedLights(boolean climbDeployed) {
         if (climbDeployed) {
             for (int i = 0; i < climbBuffer.getLength(); i++) {
                 climbBuffer.setLED(i, Color.kGreen);
