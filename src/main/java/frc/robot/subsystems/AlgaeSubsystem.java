@@ -29,6 +29,7 @@ public class AlgaeSubsystem extends SubsystemBase {
      * Intake Routines
      */
 
+
     public void setIntakeSpeed(double speed) {
 
         this.intakeSpeed = speed;
@@ -36,6 +37,9 @@ public class AlgaeSubsystem extends SubsystemBase {
         checkSafety();
 
         intakeMotor.set(ControlMode.PercentOutput, intakeSpeed);
+
+        System.out.println("AlgaeSubsystem IntakeSpeed: " + intakeSpeed);
+
     }
 
     /*
@@ -46,7 +50,6 @@ public class AlgaeSubsystem extends SubsystemBase {
         return armDeployed;
     }
 
-
     /*
      * Periodic routines
      */
@@ -55,7 +58,9 @@ public class AlgaeSubsystem extends SubsystemBase {
 
         checkSafety();
 
-        lightsSubsystem.setIntakeSpeeds(intakeSpeed);
+        lightsSubsystem.setAlgaeIntakeLights(intakeSpeed);
+
+
 
         // FIXME: Add a call to the lights subsystem to show the current speed or height
         // lightsSubsystem.setAlgae..();

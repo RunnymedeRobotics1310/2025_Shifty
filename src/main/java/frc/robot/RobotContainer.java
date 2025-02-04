@@ -14,6 +14,7 @@ import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LightsSubsystem;
 
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -28,7 +29,6 @@ public class RobotContainer {
     private final LightsSubsystem lightsSubsystem = new LightsSubsystem();
     private final DriveSubsystem  driveSubsystem  = new DriveSubsystem(lightsSubsystem);
     private final AlgaeSubsystem  algaeSubsystem  = new AlgaeSubsystem(lightsSubsystem);
-    // FIXME: add Algae
 
     // Driver and operator controllers
     private final OperatorInput   operatorInput   = new OperatorInput();

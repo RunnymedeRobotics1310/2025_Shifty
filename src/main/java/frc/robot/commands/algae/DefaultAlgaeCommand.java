@@ -10,10 +10,10 @@ public class DefaultAlgaeCommand extends LoggingCommand {
 
     private final AlgaeSubsystem algaeSubsystem;
     private final OperatorInput  operatorInput;
-    private boolean              algaeIntakeState  = false;
-    private boolean              algaeOuttakeState = false;
+    public boolean               algaeIntakeState  = false;
+    public boolean               algaeOuttakeState = false;
 
-    private double               intakeSpeed       = 0;
+    public double                speed             = 0;
 
 
     public DefaultAlgaeCommand(AlgaeSubsystem algaeSubsystem, OperatorInput operatorInput, boolean algaeIntakeState) {
@@ -37,7 +37,7 @@ public class DefaultAlgaeCommand extends LoggingCommand {
             algaeOuttakeState = false;
         }
 
-        if (operatorInput.startAlgaeIntake() <= 0.5) {
+        if (operatorInput.startAlgaeIntake() < 0.5) {
             algaeIntakeState = false;
         }
 
@@ -45,7 +45,7 @@ public class DefaultAlgaeCommand extends LoggingCommand {
             algaeOuttakeState = true;
         }
 
-        if (operatorInput.startAlgaeOuttake() <= 0.5) {
+        if (operatorInput.startAlgaeOuttake() < 0.5) {
             algaeOuttakeState = false;
         }
 
@@ -54,26 +54,31 @@ public class DefaultAlgaeCommand extends LoggingCommand {
             algaeOuttakeState = false;
         }
 
-
-
-        // Debugging (Works)
         if (!algaeIntakeState) {
-            intakeSpeed = 0;
+            speed = 0;
             log("Algae OFF");
         }
 
-        else {
-            intakeSpeed = 1;
+        if (algaeIntakeState) {
+            speed = 1;
             log("Algae O");
         }
+
 
         if (!algaeOuttakeState) {
             log("Outtake OFF");
         }
 
         else {
+            speed = 0.5;
             log("Outtake O");
         }
+
+        System.out.println("DefaultAlgaeCommand speed: " + speed);
+
+        algaeSubsystem.setIntakeSpeed(speed);
+
+
     }
 
 
@@ -87,4 +92,5 @@ public class DefaultAlgaeCommand extends LoggingCommand {
 
     }
 }
+
 

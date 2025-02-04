@@ -14,22 +14,27 @@ import frc.robot.Robot;
 
 public class LightsSubsystem extends SubsystemBase {
 
-    private final AddressableLED              ledString        = new AddressableLED(LightsConstants.LED_STRING_PWM_PORT);
-    private final AddressableLEDBuffer        ledBuffer        = new AddressableLEDBuffer(LightsConstants.LED_STRING_LENGTH);
+    private final AddressableLED              ledString               = new AddressableLED(LightsConstants.LED_STRING_PWM_PORT);
+    private final AddressableLEDBuffer        ledBuffer               = new AddressableLEDBuffer(
+        LightsConstants.LED_STRING_LENGTH);
 
-    private final AddressableLEDBufferView    leftSpeedBuffer  = new AddressableLEDBufferView(ledBuffer, 1, 28);
-    private final AddressableLEDBufferView    rightSpeedBuffer = new AddressableLEDBufferView(ledBuffer, 31, 58).reversed();
+    private final AddressableLEDBufferView    leftSpeedBuffer         = new AddressableLEDBufferView(ledBuffer, 1, 28);
+    private final AddressableLEDBufferView    rightSpeedBuffer        = new AddressableLEDBufferView(ledBuffer, 31, 58)
+        .reversed();
 
-    private final AddressableLEDBufferView    algaeLightBuffer = new AddressableLEDBufferView(ledBuffer, 31, 58);
+    private final AddressableLEDBufferView    algaeIntakeLightBuffer  = new AddressableLEDBufferView(ledBuffer, 27, 28);
+    private final AddressableLEDBufferView    algaeOuttakeLightBuffer = new AddressableLEDBufferView(ledBuffer, 25, 26);
 
     // RSL Flash
-    private static final Color                RSL_COLOR        = new Color(255, 20, 0);
-    private static final AddressableLEDBuffer RSL_ON           = new AddressableLEDBuffer(LightsConstants.LED_STRING_LENGTH);
-    private static final AddressableLEDBuffer RSL_OFF          = new AddressableLEDBuffer(LightsConstants.LED_STRING_LENGTH);
-    private Timer                             simRslTimer      = new Timer();
-    private boolean                           simRslState      = false;
-    private int                               rslFlashCount    = -1;
-    private boolean                           previousRslState = false;
+    private static final Color                RSL_COLOR               = new Color(255, 20, 0);
+    private static final AddressableLEDBuffer RSL_ON                  = new AddressableLEDBuffer(
+        LightsConstants.LED_STRING_LENGTH);
+    private static final AddressableLEDBuffer RSL_OFF                 = new AddressableLEDBuffer(
+        LightsConstants.LED_STRING_LENGTH);
+    private Timer                             simRslTimer             = new Timer();
+    private boolean                           simRslState             = false;
+    private int                               rslFlashCount           = -1;
+    private boolean                           previousRslState        = false;
 
     public LightsSubsystem() {
 
@@ -52,11 +57,29 @@ public class LightsSubsystem extends SubsystemBase {
 
     }
 
-    public void setIntakeSpeeds(double intakeSpeed) {
-        LEDPattern.kOff.applyTo(algaeLightBuffer);
+    public void setAlgaeIntakeLights(double intakeSpeed) {
 
-        setSpeedPixel(intakeSpeed, algaeLightBuffer);
+        System.out.println("LightSubsystem IntakeSpeed: " + intakeSpeed);
 
+        if (intakeSpeed == 0.5) {
+            for (int i = 0; i < algaeOuttakeLightBuffer.getLength(); i++) {
+                System.out.println("For Loop IntakeSpeed: " + intakeSpeed);
+                System.out.println("For loop i integer: " + i);
+                algaeOuttakeLightBuffer.setLED(i, Color.kOrangeRed);
+            }
+        }
+
+        if (intakeSpeed >= 0.95) {
+            for (int i = 0; i < algaeIntakeLightBuffer.getLength(); i++) {
+                System.out.println("For Loop IntakeSpeed: " + intakeSpeed);
+                System.out.println("For loop i integer: " + i);
+                algaeIntakeLightBuffer.setLED(i, Color.kTurquoise);
+            }
+        }
+
+        else {
+            LEDPattern.kOff.applyTo(algaeIntakeLightBuffer);
+        }
     }
 
     private void setSpeedPixel(double speed, AddressableLEDBufferView speedBuffer) {
