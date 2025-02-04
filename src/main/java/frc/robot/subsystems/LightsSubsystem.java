@@ -20,6 +20,8 @@ public class LightsSubsystem extends SubsystemBase {
     private final AddressableLEDBufferView    leftSpeedBuffer  = new AddressableLEDBufferView(ledBuffer, 1, 28);
     private final AddressableLEDBufferView    rightSpeedBuffer = new AddressableLEDBufferView(ledBuffer, 31, 58).reversed();
 
+    private final AddressableLEDBufferView    algaeLightBuffer = new AddressableLEDBufferView(ledBuffer, 31, 58);
+
     // RSL Flash
     private static final Color                RSL_COLOR        = new Color(255, 20, 0);
     private static final AddressableLEDBuffer RSL_ON           = new AddressableLEDBuffer(LightsConstants.LED_STRING_LENGTH);
@@ -51,11 +53,10 @@ public class LightsSubsystem extends SubsystemBase {
     }
 
     public void setIntakeSpeeds(double intakeSpeed) {
-        LEDPattern.kOff.applyTo(leftSpeedBuffer);
-        LEDPattern.kOff.applyTo(rightSpeedBuffer);
+        LEDPattern.kOff.applyTo(algaeLightBuffer);
 
-        setSpeedPixel(intakeSpeed, leftSpeedBuffer);
-        setSpeedPixel(intakeSpeed, rightSpeedBuffer);
+        setSpeedPixel(intakeSpeed, algaeLightBuffer);
+
     }
 
     private void setSpeedPixel(double speed, AddressableLEDBufferView speedBuffer) {

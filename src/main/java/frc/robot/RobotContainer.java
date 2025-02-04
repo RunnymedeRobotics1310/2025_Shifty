@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.algae.InttakeAlgaeCommand;
 import frc.robot.commands.auto.AutoCommand;
 import frc.robot.commands.drive.DefaultDriveCommand;
 import frc.robot.subsystems.AlgaeSubsystem;
@@ -42,9 +41,7 @@ public class RobotContainer {
             new DefaultDriveCommand(operatorInput, driveSubsystem));
 
         // Configure the button bindings - pass in all subsystems
-        operatorInput.configureButtonBindings(driveSubsystem, algaeSubsystem);
-
-        algaeSubsystem.setDefaultCommand(new InttakeAlgaeCommand(operatorInput, algaeSubsystem));
+        operatorInput.configureButtonBindings(driveSubsystem, algaeSubsystem, operatorInput);
 
         // Add a trigger to flash the LEDs in sync with the
         // RSL light for 5 flashes when the robot is enabled

@@ -11,6 +11,7 @@ import frc.robot.Constants.DriveConstants.DriveMode;
 import frc.robot.Constants.OperatorInputConstants;
 import frc.robot.commands.CancelCommand;
 import frc.robot.commands.GameController;
+import frc.robot.commands.algae.DefaultAlgaeCommand;
 import frc.robot.commands.drive.DriveOnHeadingCommand;
 import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -66,7 +67,8 @@ public class OperatorInput extends SubsystemBase {
      *
      * @param driveSubsystem
      */
-    public void configureButtonBindings(DriveSubsystem driveSubsystem, AlgaeSubsystem algaeSubsystem) {
+    public void configureButtonBindings(DriveSubsystem driveSubsystem, AlgaeSubsystem algaeSubsystem,
+        OperatorInput operatorInput) {
 
         // Cancel Command - cancels all running commands on all subsystems
         new Trigger(() -> isCancel())
@@ -91,6 +93,15 @@ public class OperatorInput extends SubsystemBase {
 
         new Trigger(() -> driverController.getPOV() == 270)
             .onTrue(new DriveOnHeadingCommand(270, .5, 100, driveSubsystem));
+
+        // Left trigger
+
+        new Trigger(() -> driverController.getLeftTriggerAxis() <= 0.5)
+            .onTrue(new DefaultAlgaeCommand(algaeSubsystem, operatorInput, false));
+
+        new Trigger(() -> driverController.getRightTriggerAxis() >= 0.5)
+            .onTrue(new DefaultAlgaeCommand(algaeSubsystem, operatorInput, true));
+
     }
 
     /*
@@ -159,14 +170,6 @@ public class OperatorInput extends SubsystemBase {
         return driverController.getRightX();
     }
 
-    public double inTakeAlgae() {
-        return driverController.getLeftTriggerAxis();
-    }
-
-    public double outTakeAlgae() {
-        return driverController.getRightTriggerAxis();
-    }
-
     /*
      * Support for haptic feedback to the driver
      */
@@ -176,6 +179,14 @@ public class OperatorInput extends SubsystemBase {
 
     public void stopVibrate() {
         driverController.setRumble(GenericHID.RumbleType.kBothRumble, 0);
+    }
+
+    public double startAlgaeIntake() {
+        return driverController.getRightTriggerAxis();
+    }
+
+    public double startAlgaeOuttake() {
+        return driverController.getLeftTriggerAxis();
     }
 
 
