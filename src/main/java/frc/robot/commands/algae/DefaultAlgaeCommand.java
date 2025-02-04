@@ -49,25 +49,21 @@ public class DefaultAlgaeCommand extends LoggingCommand {
             algaeOuttakeState = false;
         }
 
-        if (operatorInput.startAlgaeIntake() >= 0.5 && operatorInput.startAlgaeOuttake() >= 0.5) { // Cannot
-                                                                                                   // activate
-                                                                                                   // both
-                                                                                                   // trigger
-                                                                                                   // buttons
-                                                                                                   // at
-                                                                                                   // the
-                                                                                                   // same
-                                                                                                   // time.
+        if (operatorInput.startAlgaeIntake() >= 0.5 && operatorInput.startAlgaeOuttake() >= 0.5) {
             algaeIntakeState  = false;
             algaeOuttakeState = false;
         }
 
+
+
         // Debugging (Works)
         if (!algaeIntakeState) {
+            intakeSpeed = 0;
             log("Algae OFF");
         }
 
         else {
+            intakeSpeed = 1;
             log("Algae O");
         }
 
