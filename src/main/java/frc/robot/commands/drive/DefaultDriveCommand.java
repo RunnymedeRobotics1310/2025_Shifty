@@ -35,7 +35,6 @@ public class DefaultDriveCommand extends LoggingCommand {
     public void execute() {
 
         // Set the pnuematic shifter based on the driver boost button.
-        driveSubsystem.setShift(operatorInput.isBoost());
 
         // Get the selected drive mode
         DriveMode driveMode          = operatorInput.getSelectedDriveMode();

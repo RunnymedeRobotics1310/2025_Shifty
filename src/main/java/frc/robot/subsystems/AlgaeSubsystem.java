@@ -3,9 +3,12 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AlgaeConstants;
+import frc.robot.Constants.DriveConstants;
 
 public class AlgaeSubsystem extends SubsystemBase {
 
@@ -17,6 +20,9 @@ public class AlgaeSubsystem extends SubsystemBase {
     private double                intakeSpeed = 0;
 
     private boolean               armDeployed = false;
+
+    private Solenoid              shifter     = new Solenoid(PneumaticsModuleType.CTREPCM,
+        DriveConstants.SHIFTER_PNEUMATIC_PORT);
 
     // Simulation constants
 
@@ -38,14 +44,17 @@ public class AlgaeSubsystem extends SubsystemBase {
 
         intakeMotor.set(ControlMode.PercentOutput, intakeSpeed);
 
-        System.out.println("AlgaeSubsystem IntakeSpeed: " + intakeSpeed);
-
     }
 
     /*
      * Arm Routines
      * FIXME: Make some arm routines
      */
+
+    public void setShift(boolean shift) {
+        shifter.set(shift);
+    }
+
     public boolean isArmDeployed() {
         return armDeployed;
     }

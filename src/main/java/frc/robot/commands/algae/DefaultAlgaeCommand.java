@@ -56,11 +56,14 @@ public class DefaultAlgaeCommand extends LoggingCommand {
 
         if (!algaeIntakeState) {
             speed = 0;
+            algaeSubsystem.setShift(false);
             log("Algae OFF");
         }
 
         if (algaeIntakeState) {
+            algaeSubsystem.setShift(true);
             speed = 1;
+
             log("Algae O");
         }
 
@@ -73,8 +76,6 @@ public class DefaultAlgaeCommand extends LoggingCommand {
             speed = 0.5;
             log("Outtake O");
         }
-
-        System.out.println("DefaultAlgaeCommand speed: " + speed);
 
         algaeSubsystem.setIntakeSpeed(speed);
 

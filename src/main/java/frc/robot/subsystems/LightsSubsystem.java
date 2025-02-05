@@ -59,20 +59,14 @@ public class LightsSubsystem extends SubsystemBase {
 
     public void setAlgaeIntakeLights(double intakeSpeed) {
 
-        System.out.println("LightSubsystem IntakeSpeed: " + intakeSpeed);
-
         if (intakeSpeed == 0.5) {
             for (int i = 0; i < algaeOuttakeLightBuffer.getLength(); i++) {
-                System.out.println("For Loop IntakeSpeed: " + intakeSpeed);
-                System.out.println("For loop i integer: " + i);
                 algaeOuttakeLightBuffer.setLED(i, Color.kOrangeRed);
             }
         }
 
         if (intakeSpeed >= 0.95) {
             for (int i = 0; i < algaeIntakeLightBuffer.getLength(); i++) {
-                System.out.println("For Loop IntakeSpeed: " + intakeSpeed);
-                System.out.println("For loop i integer: " + i);
                 algaeIntakeLightBuffer.setLED(i, Color.kTurquoise);
             }
         }
