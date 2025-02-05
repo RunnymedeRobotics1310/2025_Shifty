@@ -16,22 +16,24 @@ public class ClimbSubsystem extends SubsystemBase {
 
     private boolean               climbDeployed = false;
 
-    // Simulation constants
-
-
     public ClimbSubsystem(LightsSubsystem lightsSubsystem) {
 
         this.lightsSubsystem = lightsSubsystem;
     }
 
+    /**
+     * FIXME: is this a good name for this routine?
+     * TODO: add JavaDoc to activation routines.
+     *
+     * @param deployClimb {@code true} to deploy the climber (climb), {@code false} to retract the
+     * climber (lower the robot)
+     */
     public void extendClimbPiston(boolean deployClimb) {
         climbPiston.set(deployClimb);
     }
 
-    /*
-     * Climb Routines
-     */
     public boolean isClimbDeployed() {
+        // FIXME: the climbDeployed variable is never used, do we need it?
         climbDeployed = climbPiston.get();
         return climbDeployed;
     }
