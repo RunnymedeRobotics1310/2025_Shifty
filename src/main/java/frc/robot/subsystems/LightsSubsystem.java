@@ -59,20 +59,9 @@ public class LightsSubsystem extends SubsystemBase {
     public void setClimbDeployedLights(boolean climbDeployed) {
 
         if (climbDeployed) {
-            // FIXME: you could consider using the LEDPattern method instead. The code you have
-            // written will work fine, and practicing writing loops is good.
-            // LEDPattern.solid(Color.kGreen).applyTo(climbBuffer);
-            for (int i = 0; i < climbBuffer.getLength(); i++) {
-                climbBuffer.setLED(i, Color.kGreen);
-            }
+            LEDPattern.solid(Color.kGreen).applyTo(climbBuffer);
             if (!climbDeployed) {
-                for (int i = 0; i < climbBuffer.getLength(); i++) {
-                    // FIXME: it would be good if this color was not black. Using black,
-                    // you do not know if the code is working or not because the default
-                    // state is black. To make sure your code is running, do not
-                    // output the default state.
-                    climbBuffer.setLED(i, Color.kBlack);
-                }
+                LEDPattern.solid(Color.kBlue).applyTo(climbBuffer);
             }
         }
     }

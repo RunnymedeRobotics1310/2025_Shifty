@@ -8,13 +8,11 @@ import frc.robot.Constants.DriveConstants;
 
 public class ClimbSubsystem extends SubsystemBase {
 
-    private Solenoid              climbPiston   = new Solenoid(PneumaticsModuleType.CTREPCM,
+    private Solenoid              climbPiston = new Solenoid(PneumaticsModuleType.CTREPCM,
         DriveConstants.SHIFTER_PNEUMATIC_PORT);
 
 
     private final LightsSubsystem lightsSubsystem;
-
-    private boolean               climbDeployed = false;
 
     public ClimbSubsystem(LightsSubsystem lightsSubsystem) {
 
@@ -22,20 +20,18 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     /**
-     * FIXME: is this a good name for this routine?
-     * TODO: add JavaDoc to activation routines.
+     * 
+     * 
      *
      * @param deployClimb {@code true} to deploy the climber (climb), {@code false} to retract the
      * climber (lower the robot)
      */
-    public void extendClimbPiston(boolean deployClimb) {
+    public void toggleClimbPiston(boolean deployClimb) {
         climbPiston.set(deployClimb);
     }
 
     public boolean isClimbDeployed() {
-        // FIXME: the climbDeployed variable is never used, do we need it?
-        climbDeployed = climbPiston.get();
-        return climbDeployed;
+        return !climbPiston.get();
     }
 
 

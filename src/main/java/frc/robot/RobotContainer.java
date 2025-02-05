@@ -29,10 +29,8 @@ public class RobotContainer {
     private final DriveSubsystem  driveSubsystem  = new DriveSubsystem(lightsSubsystem);
     private final ClimbSubsystem  climbSubsystem  = new ClimbSubsystem(lightsSubsystem);
 
-    // FIXME: add the climb subsystem.
-
     // Driver and operator controllers
-    private final OperatorInput operatorInput = new OperatorInput();
+    private final OperatorInput   operatorInput   = new OperatorInput();
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
