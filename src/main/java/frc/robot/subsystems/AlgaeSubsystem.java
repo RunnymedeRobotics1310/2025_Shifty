@@ -21,10 +21,10 @@ public class AlgaeSubsystem extends SubsystemBase {
 
     private boolean               armDeployed = false;
 
+    // FIXME: rename the shifter to the algaeArmPiston
     private Solenoid              shifter     = new Solenoid(PneumaticsModuleType.CTREPCM,
         DriveConstants.SHIFTER_PNEUMATIC_PORT);
 
-    // Simulation constants
 
     public AlgaeSubsystem(LightsSubsystem lightsSubsystem) {
 
@@ -48,14 +48,16 @@ public class AlgaeSubsystem extends SubsystemBase {
 
     /*
      * Arm Routines
-     * FIXME: Make some arm routines
      */
 
+    // FIXME: rename to deployArm
     public void setShift(boolean shift) {
         shifter.set(shift);
     }
 
     public boolean isArmDeployed() {
+
+        // FIXME; return the piston state and remove the armDeployed variable
         return armDeployed;
     }
 
@@ -67,17 +69,12 @@ public class AlgaeSubsystem extends SubsystemBase {
 
         checkSafety();
 
+        // FIXME: also pass in the armDeployed state
         lightsSubsystem.setAlgaeIntakeLights(intakeSpeed);
-
-
-
-        // FIXME: Add a call to the lights subsystem to show the current speed or height
-        // lightsSubsystem.setAlgae..();
 
         SmartDashboard.putNumber("Algae Intake Motor", intakeSpeed);
         SmartDashboard.putBoolean("Algae Arm Deployed", isArmDeployed());
 
-        // FIXME: what else should we put on the SmartDashboard
     }
 
     private void checkSafety() {

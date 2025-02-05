@@ -22,6 +22,8 @@ public class LightsSubsystem extends SubsystemBase {
     private final AddressableLEDBufferView    rightSpeedBuffer        = new AddressableLEDBufferView(ledBuffer, 31, 58)
         .reversed();
 
+    // FIXME: do these lights work? You may need to put them at 0, and 1, and shorten the speed
+    // buffers.
     private final AddressableLEDBufferView    algaeIntakeLightBuffer  = new AddressableLEDBufferView(ledBuffer, 27, 28);
     private final AddressableLEDBufferView    algaeOuttakeLightBuffer = new AddressableLEDBufferView(ledBuffer, 25, 26);
 
@@ -57,14 +59,23 @@ public class LightsSubsystem extends SubsystemBase {
 
     }
 
+    // FIXME: add the piston deploy state
     public void setAlgaeIntakeLights(double intakeSpeed) {
 
+        // FIXME: maybe there are 3 states, > 0 = intake, < 0 = outtake, 0 = stopped
+
         if (intakeSpeed == 0.5) {
+
+            // FIXME: you can use the LEDPattern method for this. The loop still works but this is
+            // cleaner
+            // LEDPattern.solid(Color.kOrangeRed).applyTo(algaeOuttakeLightBuffer);
             for (int i = 0; i < algaeOuttakeLightBuffer.getLength(); i++) {
                 algaeOuttakeLightBuffer.setLED(i, Color.kOrangeRed);
             }
         }
+        // FIXME: the algaeOuttakeLightBuffer never gets turned off.
 
+        // FIXME: do you need a Math.abs() here (intake and outtake will go in different directions)
         if (intakeSpeed >= 0.95) {
             for (int i = 0; i < algaeIntakeLightBuffer.getLength(); i++) {
                 algaeIntakeLightBuffer.setLED(i, Color.kTurquoise);
@@ -73,6 +84,8 @@ public class LightsSubsystem extends SubsystemBase {
 
         else {
             LEDPattern.kOff.applyTo(algaeIntakeLightBuffer);
+            // FIXME: if you want to make sure this is called, it is better to use another
+            // colour other than the default. Maybe a light grey?
         }
     }
 

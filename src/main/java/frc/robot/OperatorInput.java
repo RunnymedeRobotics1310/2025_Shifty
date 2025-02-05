@@ -95,7 +95,9 @@ public class OperatorInput extends SubsystemBase {
             .onTrue(new DriveOnHeadingCommand(270, .5, 100, driveSubsystem));
 
         // Left trigger
-
+        // FIXME: remove these methods, the default command will use the
+        // methods later in this class rather than button bindings.
+        // The default command is bound to the subsystem in the RobotContainer.
         new Trigger(() -> driverController.getLeftTriggerAxis() <= 0.5)
             .onTrue(new DefaultAlgaeCommand(algaeSubsystem, operatorInput, false));
 
@@ -181,6 +183,13 @@ public class OperatorInput extends SubsystemBase {
         driverController.setRumble(GenericHID.RumbleType.kBothRumble, 0);
     }
 
+    /*
+     * Algae
+     */
+
+    // FIXME: these routines seem like they should return boolean values?
+    // FIXME: Naming: if these are push-and-hold-to-activate buttons, maybe
+    // they should not contain the word 'start'. Maybe intakeAlge, and outtakeAlgae
     public double startAlgaeIntake() {
         return driverController.getRightTriggerAxis();
     }
