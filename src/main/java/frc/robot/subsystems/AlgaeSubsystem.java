@@ -15,14 +15,11 @@ public class AlgaeSubsystem extends SubsystemBase {
     private final LightsSubsystem lightsSubsystem;
 
     // Algae Subsystem Motors
-    private final TalonSRX        intakeMotor = new TalonSRX(AlgaeConstants.INTAKE_MOTOR_CAN_ID);
+    private final TalonSRX        intakeMotor    = new TalonSRX(AlgaeConstants.INTAKE_MOTOR_CAN_ID);
 
-    private double                intakeSpeed = 0;
+    private double                intakeSpeed    = 0;
 
-    private boolean               armDeployed = false;
-
-    // FIXME: rename the shifter to the algaeArmPiston
-    private Solenoid              shifter     = new Solenoid(PneumaticsModuleType.CTREPCM,
+    private Solenoid              algaeArmPiston = new Solenoid(PneumaticsModuleType.CTREPCM,
         DriveConstants.SHIFTER_PNEUMATIC_PORT);
 
 
@@ -50,15 +47,13 @@ public class AlgaeSubsystem extends SubsystemBase {
      * Arm Routines
      */
 
-    // FIXME: rename to deployArm
-    public void setShift(boolean shift) {
-        shifter.set(shift);
+    // FIXM: rename to deployArm
+    public void deployArm(boolean shift) {
+        algaeArmPiston.set(shift);
     }
 
     public boolean isArmDeployed() {
-
-        // FIXME; return the piston state and remove the armDeployed variable
-        return armDeployed;
+        return algaeArmPiston.get();
     }
 
     /*
@@ -69,8 +64,8 @@ public class AlgaeSubsystem extends SubsystemBase {
 
         checkSafety();
 
-        // FIXME: also pass in the armDeployed state
-        lightsSubsystem.setAlgaeIntakeLights(intakeSpeed);
+
+        lightsSubsystem.setAlgaeIntakeLights(intakeSpeed, isArmDeployed());
 
         SmartDashboard.putNumber("Algae Intake Motor", intakeSpeed);
         SmartDashboard.putBoolean("Algae Arm Deployed", isArmDeployed());

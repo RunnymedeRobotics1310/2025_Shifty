@@ -61,6 +61,10 @@ public final class Constants {
 
         public static final int INTAKE_MOTOR_CAN_ID       = 40;
         public static final int INTAKE_ARM_PNEUMATIC_PORT = 1;
+
+        public static final int ALGAE_INTAKE_SPEED        = 1;
+        public static final int ALGAE_OUTTAKE_SPEED       = -1;
+        public static final int ALGAE_DEFAULT_SPEED       = 0;
     }
 
     public static final class LightsConstants {

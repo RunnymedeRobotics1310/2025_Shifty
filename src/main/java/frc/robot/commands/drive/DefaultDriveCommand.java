@@ -54,7 +54,6 @@ public class DefaultDriveCommand extends LoggingCommand {
             double rightSpeed = operatorInput.getRightSpeed();
 
             setTankDriveMotorSpeeds(leftSpeed, rightSpeed, driveScalingFactor);
-
         }
         else {
 

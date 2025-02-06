@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.algae.DefaultAlgaeCommand;
 import frc.robot.commands.auto.AutoCommand;
 import frc.robot.commands.drive.DefaultDriveCommand;
 import frc.robot.subsystems.AlgaeSubsystem;
@@ -44,6 +45,9 @@ public class RobotContainer {
         // The default command will run over the subsystem if there are no other
         // commands running.
         // Set the default algae command.
+
+        algaeSubsystem.setDefaultCommand(
+            new DefaultAlgaeCommand(algaeSubsystem, operatorInput, false));
 
         // Configure the button bindings - pass in all subsystems
         operatorInput.configureButtonBindings(driveSubsystem, algaeSubsystem, operatorInput);
