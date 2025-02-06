@@ -41,13 +41,8 @@ public class RobotContainer {
         driveSubsystem.setDefaultCommand(
             new DefaultDriveCommand(operatorInput, driveSubsystem));
 
-        // FIXME: Default commands are attached to a subsystem here.
-        // The default command will run over the subsystem if there are no other
-        // commands running.
-        // Set the default algae command.
-
         algaeSubsystem.setDefaultCommand(
-            new DefaultAlgaeCommand(algaeSubsystem, operatorInput, false));
+            new DefaultAlgaeCommand(algaeSubsystem, operatorInput));
 
         // Configure the button bindings - pass in all subsystems
         operatorInput.configureButtonBindings(driveSubsystem, algaeSubsystem, operatorInput);

@@ -19,7 +19,7 @@ public class LightsSubsystem extends SubsystemBase {
         LightsConstants.LED_STRING_LENGTH);
 
     private final AddressableLEDBufferView    leftSpeedBuffer         = new AddressableLEDBufferView(ledBuffer, 1, 28);
-    private final AddressableLEDBufferView    rightSpeedBuffer        = new AddressableLEDBufferView(ledBuffer, 31, 58).reversed()
+    private final AddressableLEDBufferView    rightSpeedBuffer        = new AddressableLEDBufferView(ledBuffer, 31, 58)
         .reversed();
 
     // Algae Buffers
@@ -68,11 +68,9 @@ public class LightsSubsystem extends SubsystemBase {
             LEDPattern.solid(Color.kOrangeRed).applyTo(algaeOuttakeLightBuffer);
         }
 
-        // FIXME: intake and outtake buffers are set to off?
-        // This code sets the intake buffer twice.
         if (intakeSpeed == 0) {
             LEDPattern.kOff.applyTo(algaeIntakeLightBuffer);
-            LEDPattern.kOff.applyTo(algaeIntakeLightBuffer);
+            LEDPattern.kOff.applyTo(algaeOuttakeLightBuffer);
         }
 
         if (isArmDeployed) {

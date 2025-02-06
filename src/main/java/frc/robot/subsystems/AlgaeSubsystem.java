@@ -47,7 +47,6 @@ public class AlgaeSubsystem extends SubsystemBase {
      * Arm Routines
      */
 
-    // FIXM: rename to deployArm
     public void deployArm(boolean shift) {
         algaeArmPiston.set(shift);
     }
@@ -63,7 +62,6 @@ public class AlgaeSubsystem extends SubsystemBase {
     public void periodic() {
 
         checkSafety();
-
 
         lightsSubsystem.setAlgaeIntakeLights(intakeSpeed, isArmDeployed());
 
@@ -82,9 +80,8 @@ public class AlgaeSubsystem extends SubsystemBase {
 
         StringBuilder sb = new StringBuilder();
 
-        // FIXME: add the arm deployed to the description
         sb.append(this.getClass().getSimpleName()).append(" : ")
-            .append("intake: speed ").append(intakeSpeed);
+            .append("intake: speed ").append(intakeSpeed).append("arm deployed: ").append(isArmDeployed());
 
         return sb.toString();
     }
