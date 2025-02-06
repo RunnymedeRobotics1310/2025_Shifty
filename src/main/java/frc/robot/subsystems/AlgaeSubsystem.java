@@ -82,6 +82,7 @@ public class AlgaeSubsystem extends SubsystemBase {
 
         StringBuilder sb = new StringBuilder();
 
+        // FIXME: add the arm deployed to the description
         sb.append(this.getClass().getSimpleName()).append(" : ")
             .append("intake: speed ").append(intakeSpeed);
 

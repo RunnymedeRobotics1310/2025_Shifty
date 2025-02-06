@@ -68,6 +68,8 @@ public class LightsSubsystem extends SubsystemBase {
             LEDPattern.solid(Color.kOrangeRed).applyTo(algaeOuttakeLightBuffer);
         }
 
+        // FIXME: intake and outtake buffers are set to off?
+        // This code sets the intake buffer twice.
         if (intakeSpeed == 0) {
             LEDPattern.kOff.applyTo(algaeIntakeLightBuffer);
             LEDPattern.kOff.applyTo(algaeIntakeLightBuffer);
