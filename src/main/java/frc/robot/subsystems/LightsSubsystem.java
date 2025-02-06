@@ -60,6 +60,9 @@ public class LightsSubsystem extends SubsystemBase {
 
         if (climbDeployed) {
             LEDPattern.solid(Color.kGreen).applyTo(climbBuffer);
+            // FIXME: The following code will not get executed since it is
+            // inside of 'if (climbDeployed) {}' climbDeployed cannot
+            // be both true and false.
             if (!climbDeployed) {
                 LEDPattern.solid(Color.kBlue).applyTo(climbBuffer);
             }
