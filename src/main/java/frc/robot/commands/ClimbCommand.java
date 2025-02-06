@@ -20,14 +20,7 @@ public class ClimbCommand extends LoggingCommand {
     public void initialize() {
 
         logCommandStart();
-
-        // if (deployClimb && !climbSubsystem.isClimbDeployed()) {
-        // climbSubsystem.extendClimbPiston(true);
-        // }
-        // if (!deployClimb && climbSubsystem.isClimbDeployed()) {
-        // climbSubsystem.extendClimbPiston(false);
-        // }
-
+ 
         if (deployClimb) {
             climbSubsystem.toggleClimbPiston(true);
         }
@@ -39,10 +32,6 @@ public class ClimbCommand extends LoggingCommand {
 
     @Override
     public void execute() {
-
-        // FIXME: do the state check in the subsystem (if you need to).
-        // remove the climbSystem.isClimbDeployed(), and put that check
-        // in the subsystem.extendClimbPiston instead.
 
     }
 

@@ -80,6 +80,8 @@ public class OperatorInput extends SubsystemBase {
             }));
 
 
+
+        //Climb piston toggle
         new Trigger(() -> driverController.getRightBumperButton() && driverController.getPOV() == 0)
             .onTrue(new ClimbCommand(true, climbSubsystem));
 
