@@ -20,13 +20,17 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     /**
+     *
+     *
+     *
      * @param deployClimb {@code true} to deploy the climber (climb), {@code false} to retract the
      * climber (lower the robot)
      * 
      * 
      * 
      */
-    public void toggleClimbPiston(boolean deployClimb) {
+
+    public void setClimbDeployed(boolean deployClimb) {
         climbPiston.set(deployClimb);
     }
 

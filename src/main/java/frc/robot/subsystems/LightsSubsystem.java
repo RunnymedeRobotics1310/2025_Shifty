@@ -60,9 +60,9 @@ public class LightsSubsystem extends SubsystemBase {
 
         if (climbDeployed) {
             LEDPattern.solid(Color.kGreen).applyTo(climbBuffer);
-            if (!climbDeployed) {
-                LEDPattern.solid(Color.kBlue).applyTo(climbBuffer);
-            }
+        }
+        if (!climbDeployed) {
+            LEDPattern.solid(Color.kBlue).applyTo(climbBuffer);
         }
     }
 

@@ -20,12 +20,13 @@ public class ClimbCommand extends LoggingCommand {
     public void initialize() {
 
         logCommandStart();
- 
+
+
         if (deployClimb) {
-            climbSubsystem.toggleClimbPiston(true);
+            climbSubsystem.setClimbDeployed(true);
         }
         else {
-            climbSubsystem.toggleClimbPiston(false);
+            climbSubsystem.setClimbDeployed(false);
         }
 
     }
