@@ -23,9 +23,9 @@ public class LightsSubsystem extends SubsystemBase {
         .reversed();
 
     // Algae Buffers
-    private final AddressableLEDBufferView    algaeIntakeLightBuffer  = new AddressableLEDBufferView(ledBuffer, 27, 28);
-    private final AddressableLEDBufferView    algaeOuttakeLightBuffer = new AddressableLEDBufferView(ledBuffer, 25, 26);
-    private final AddressableLEDBufferView    algaeArmLightBuffer     = new AddressableLEDBufferView(ledBuffer, 23, 24);
+    private final AddressableLEDBufferView    algaeIntakeLightBuffer  = new AddressableLEDBufferView(ledBuffer, 26, 27);
+    private final AddressableLEDBufferView    algaeOuttakeLightBuffer = new AddressableLEDBufferView(ledBuffer, 24, 25);
+    private final AddressableLEDBufferView    algaeArmLightBuffer     = new AddressableLEDBufferView(ledBuffer, 22, 23);
     // RSL Flash
     private static final Color                RSL_COLOR               = new Color(255, 20, 0);
     private static final AddressableLEDBuffer RSL_ON                  = new AddressableLEDBuffer(
