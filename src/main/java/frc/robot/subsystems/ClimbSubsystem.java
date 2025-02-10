@@ -35,7 +35,7 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public boolean isClimbDeployed() {
-        return !climbPiston.get();
+        return climbPiston.get();
     }
 
 

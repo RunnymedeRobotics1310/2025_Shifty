@@ -61,10 +61,12 @@ public class LightsSubsystem extends SubsystemBase {
         if (climbDeployed) {
             LEDPattern.solid(Color.kGreen).applyTo(climbBuffer);
         }
-        if (!climbDeployed) {
+        else {
             LEDPattern.solid(Color.kBlue).applyTo(climbBuffer);
         }
     }
+
+
 
     private void setSpeedPixel(double speed, AddressableLEDBufferView speedBuffer) {
 
